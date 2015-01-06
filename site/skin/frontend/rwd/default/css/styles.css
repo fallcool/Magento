@@ -489,7 +489,7 @@ input,
 select,
 table,
 textarea {
-  font-family: "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family: Arial,Verdana,Helvetica,sans-serif;
   color: #636363;
   font-size: 14px;
   line-height: 1.5;
@@ -537,7 +537,7 @@ h2, .h2 {
   margin: 0;
   margin-bottom: 0.5em;
   color: #636363;
-  font-family: "Raleway", "Helvetica Neue", Verdana, Arial, sans-serif;
+  /* font-family: "Raleway", "Helvetica Neue", Verdana, Arial, sans-serif; */
   font-size: 24px;
   font-weight: 400;
   font-style: normal;
@@ -1748,7 +1748,7 @@ a.button:hover {
  */
 .price-box {
   margin: 7px 0;
-  font-family: "Helvetica Neue", Verdana, Arial, sans-serif;
+  /* font-family: "Helvetica Neue", Verdana, Arial, sans-serif; */
 }
 
 .price-box p {
@@ -1761,7 +1761,7 @@ a.button:hover {
 
 .price-box .price {
   color: #3399cc;
-  font-size: 16px;
+  font-size: 12px;
 }
 
 .price-box .price,
@@ -4199,7 +4199,7 @@ p.product-name {
   margin: 0;
   margin-bottom: 0.5em;
   color: #636363;
-  font-family: "Raleway", "Helvetica Neue", Verdana, Arial, sans-serif;
+  /* font-family: "Raleway", "Helvetica Neue", Verdana, Arial, sans-serif; */
   font-size: 24px;
   font-weight: 400;
   font-style: normal;
@@ -4207,7 +4207,7 @@ p.product-name {
   text-rendering: optimizeLegibility;
   text-transform: uppercase;
   font-size: 13px;
-  font-family: "Helvetica Neue", Verdana, Arial, sans-serif;
+  /* font-family: "Helvetica Neue", Verdana, Arial, sans-serif; */
   font-weight: normal;
   line-height: 1.4;
 }
@@ -4231,8 +4231,8 @@ p.product-name a:hover {
 .products-list .product-name {
   text-transform: uppercase;
   margin-bottom: 5px;
-  font-size: 14px;
-  font-family: "Raleway", "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-size: 12px;
+  /* font-family: "Raleway", "Helvetica Neue", Verdana, Arial, sans-serif; */
 }
 .products-grid .product-name a,
 .products-list .product-name a {
@@ -4255,7 +4255,7 @@ p.product-name a:hover {
 .products-grid > li {
   position: relative;
   margin-bottom: 20px;
-  text-align: center;
+  /* text-align: center; */
 }
 .products-grid > li:after {
   content: '';
@@ -4284,7 +4284,6 @@ p.product-name a:hover {
 
 .products-grid .product-info {
   position: relative;
-  padding-bottom: 95px;
 }
 
 .products-grid .actions {
