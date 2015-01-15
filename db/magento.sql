@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 05, 2015 at 01:50 PM
+-- Generation Time: Jan 15, 2015 at 08:27 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -230,7 +230,7 @@ CREATE TABLE IF NOT EXISTS `admin_user` (
 --
 
 INSERT INTO `admin_user` (`user_id`, `firstname`, `lastname`, `email`, `username`, `password`, `created`, `modified`, `logdate`, `lognum`, `reload_acl_flag`, `is_active`, `extra`, `rp_token`, `rp_token_created_at`) VALUES
-(1, 'Alan', 'Shannon', 'alanshannon@gmail.com', 'admin', '171c270952780690645aac9ac421f9cd:RB81Rn8Qhjc6yEmBD6wEdykaIUxMtBSJ', '2015-01-03 14:09:12', '2015-01-03 14:09:12', '2015-01-04 06:55:24', 6, 0, 1, 'N;', NULL, NULL);
+(1, 'Alan', 'Shannon', 'alanshannon@gmail.com', 'admin', '171c270952780690645aac9ac421f9cd:RB81Rn8Qhjc6yEmBD6wEdykaIUxMtBSJ', '2015-01-03 14:09:12', '2015-01-03 14:09:12', '2015-01-04 06:55:24', 6, 0, 1, 'a:1:{s:11:"configState";a:17:{s:14:"design_package";s:1:"1";s:12:"design_theme";s:1:"1";s:11:"design_head";s:1:"0";s:13:"design_header";s:1:"1";s:13:"design_footer";s:1:"0";s:16:"design_watermark";s:1:"0";s:17:"design_pagination";s:1:"0";s:12:"design_email";s:1:"0";s:24:"mygeneral_generaloptions";s:1:"1";s:20:"mygeneral_background";s:1:"0";s:16:"mygeneral_colors";s:1:"1";s:19:"mygeneral_slideshow";s:1:"1";s:19:"mygeneral_carousels";s:1:"1";s:22:"mygeneral_product_list";s:1:"1";s:21:"mygeneral_productpage";s:1:"1";s:15:"mygeneral_share";s:1:"1";s:20:"mygeneral_customcode";s:1:"1";}}', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -386,6 +386,119 @@ CREATE TABLE IF NOT EXISTS `api_user` (
   `is_active` smallint(6) NOT NULL DEFAULT '1' COMMENT 'Account status',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Api Users' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aw_blog`
+--
+
+CREATE TABLE IF NOT EXISTS `aw_blog` (
+  `post_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `post_content` text NOT NULL,
+  `status` smallint(6) NOT NULL DEFAULT '0',
+  `created_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `identifier` varchar(255) NOT NULL DEFAULT '',
+  `user` varchar(255) NOT NULL DEFAULT '',
+  `update_user` varchar(255) NOT NULL DEFAULT '',
+  `meta_keywords` text NOT NULL,
+  `meta_description` text NOT NULL,
+  `comments` tinyint(11) NOT NULL,
+  `tags` text NOT NULL,
+  `short_content` text NOT NULL,
+  PRIMARY KEY (`post_id`),
+  UNIQUE KEY `identifier` (`identifier`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aw_blog_cat`
+--
+
+CREATE TABLE IF NOT EXISTS `aw_blog_cat` (
+  `cat_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `identifier` varchar(255) NOT NULL DEFAULT '',
+  `sort_order` tinyint(6) NOT NULL,
+  `meta_keywords` text NOT NULL,
+  `meta_description` text NOT NULL,
+  PRIMARY KEY (`cat_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `aw_blog_cat`
+--
+
+INSERT INTO `aw_blog_cat` (`cat_id`, `title`, `identifier`, `sort_order`, `meta_keywords`, `meta_description`) VALUES
+(1, 'News', 'news', 0, '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aw_blog_cat_store`
+--
+
+CREATE TABLE IF NOT EXISTS `aw_blog_cat_store` (
+  `cat_id` smallint(6) unsigned DEFAULT NULL,
+  `store_id` smallint(6) unsigned DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aw_blog_comment`
+--
+
+CREATE TABLE IF NOT EXISTS `aw_blog_comment` (
+  `comment_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `post_id` smallint(11) NOT NULL DEFAULT '0',
+  `comment` text NOT NULL,
+  `status` smallint(6) NOT NULL DEFAULT '0',
+  `created_time` datetime DEFAULT NULL,
+  `user` varchar(255) NOT NULL DEFAULT '',
+  `email` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`comment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aw_blog_post_cat`
+--
+
+CREATE TABLE IF NOT EXISTS `aw_blog_post_cat` (
+  `cat_id` smallint(6) unsigned DEFAULT NULL,
+  `post_id` smallint(6) unsigned DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aw_blog_store`
+--
+
+CREATE TABLE IF NOT EXISTS `aw_blog_store` (
+  `post_id` smallint(6) unsigned DEFAULT NULL,
+  `store_id` smallint(6) unsigned DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aw_blog_tags`
+--
+
+CREATE TABLE IF NOT EXISTS `aw_blog_tags` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tag` varchar(255) NOT NULL,
+  `tag_count` int(11) NOT NULL DEFAULT '0',
+  `store_id` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tag` (`tag`,`tag_count`,`store_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -911,7 +1024,7 @@ CREATE TABLE IF NOT EXISTS `catalogsearch_fulltext` (
   PRIMARY KEY (`fulltext_id`),
   UNIQUE KEY `UNQ_CATALOGSEARCH_FULLTEXT_PRODUCT_ID_STORE_ID` (`product_id`,`store_id`),
   FULLTEXT KEY `FTI_CATALOGSEARCH_FULLTEXT_DATA_INDEX` (`data_index`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Catalog search result table' AUTO_INCREMENT=464 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Catalog search result table' AUTO_INCREMENT=470 ;
 
 --
 -- Dumping data for table `catalogsearch_fulltext`
@@ -925,7 +1038,7 @@ INSERT INTO `catalogsearch_fulltext` (`fulltext_id`, `product_id`, `store_id`, `
 (448, 114, 1, 'ACC-J5|Taxable Goods|Petal Shaped Oriental Ceramic Jar with Lid|none|A beautiful petal flower shaped oriental ceramic jar with lid. Painted with Chinese peony decoration in cobalt blue this pretty jar could make a beautiful ornament or a pretty flower vase.|150|1'),
 (449, 115, 1, 'ACC-J6|Taxable Goods|Handpainted Round Ginger Jar with Lid|none|A pretty round ceramic jar with lid. Handpainted with oriental orchid decoration in traditional blue this pretty jar could make a beautiful ornament for any rooms or a pretty flower vase.|150|1'),
 (450, 116, 1, 'ACC-H11|Taxable Goods|Armoured Tang Dynasty Warrior Horse|none|Featuring a weathered and sandy look, this replica of Tang Daynasty warrior horse symbolises strength, elegance, and perseverance.|150|1'),
-(445, 111, 1, 'ACC-J2|Taxable Goods|Glazed Round Ginger Jar with Lid|none|A pretty blue & white ceramic jar with lid. Painted with one form of traditional Chinese lotus scroll decoration in cobalt blue this beautiful jar could make an attractive ornament or a pretty flower vase.|150|1'),
+(467, 111, 1, 'ACC-J2|Taxable Goods|Glazed Round Ginger Jar with Lid|none|A pretty blue & white ceramic jar with lid. Painted with one form of traditional Chinese lotus scroll decoration in cobalt blue this beautiful jar could make an attractive ornament or a pretty flower vase.|150|1'),
 (446, 112, 1, 'ACC-J3|Taxable Goods|Blue & White Temple Jar with Double Happiness Symbol|none|An elegant temple jar made from Chinese ceramic. Lacquered in white with traditional blue Chinese decorative patterns and double happiness symbol. Temple jars are very ornate and make an impressive feature in any rooms. Temple jars could also make practical uses as a grand storage vessels. A perfect wedding present with symbolic meanings.|200|1'),
 (443, 59, 1, 'Lu-059|Taxable Goods|Antique Blue Lacquer table with a Drawer c.1920 Gansu Province|none|A charateristic blue lacquer small table beautifully restored to retain tits period design features. Full of character and charm with a blue glossy lacquer finish, a brass handled drawer, and handcurved detail on the base apron these solid wood table could make a charactful bedside table, a playroom stool, or a small hallway display stand.|300|1'),
 (444, 110, 1, 'ACC-J1|Taxable Goods|Glazed Round Ginger Jar with Lid|none|A pretty blue & white ceramic jar with lid. Painted with traditional Chinese lotus scroll decoration in cobalt blue this beautiful jar could make an attractive ornament or a pretty flower vase.|150|1'),
@@ -987,16 +1100,16 @@ INSERT INTO `catalogsearch_fulltext` (`fulltext_id`, `product_id`, `store_id`, `
 (391, 7, 1, 'Lu-007|Taxable Goods|Antique Distressed Lacqued 6 doors Cabinet c. 1930 Gansu Province|none|A solidly buitl rustic Chinese antique sideboard carefully restored with a rich blue, grey and brown crakled distressed look, finished with durable coats of lacquer. Crafted in the Gansu Province, Nortwest China c.1930. This Chinese antique cabinet featurres four doors, with four cupboards featuring handcrafted shelved recess. Adorned with brass leaf tab and plates, this elegant solid Oriental cupboard has been exquisitely crafted to beautiful finish. This anique Chinese sideboard would look impressive in wither traditional home or ultra modern apartment. Suitable as large bedroom storage, a statment drawing room or hallway peice.|1740|1'),
 (386, 2, 1, 'Lu-002|Taxable Goods|Antique Distressed Blue Lacquer 2 door Cabinet c.1920 Gansu Province|none|A blue Chinese cabinet beautifully crafted to represent many of the features of this period''s furniture. This solid wood cabinet has two doors and an eye-catching distressed look. With a removable shelf and a deep spacious cupboard this cabinet is full of character and charm. Finished with glossy lacquer including decorative iron hardware, simple apron and solid legs this antique Chinese cabinet will effortlessly add a touch of colour to any space or interior design.|1370|1'),
 (385, 1, 1, 'Lu-001|Taxable Goods|Antique Distressed BlueLacquer 4 Doors Cabinet c.1920 Shandong Province|none|A solidly buitl rustic Chinese antique sideboard carefully restored with a rich blue, grey and brown crakled distressed look, finished with durable coats of lacquer. Crafted in the Shangdong Province, Northeast China c.1920. This Chinese antique cabinet featurres four doors, with four cupboards featuring handcrafted shelved recess. Adorned with brass leaf tab and plates, this elegant solid Oriental cupboard has been exquisitely crafted to beautiful finish. This anique Chinese sideboard would look impressive in wither traditional home or ultra modern apartment. Suitable as large bedroom storage, a statment drawing room or hallway peice.|1740|1'),
-(454, 120, 1, 'ACC-H21|Taxable Goods|Tang Dynasty Ceramic Horse|none|Featuring a bright and vibrant turquoise color, this replica of Tang Dynasty ceramic horse sculpture symbolises strenth, elegance, and perseverance.|200|1'),
-(455, 121, 1, 'ACC-H22|Taxable Goods|Tang Dynasty Ceramic Horse|none|Featuring a bright and vibrant turquoise color, this replica of Tang Dynasty ceramic horse sculpture symbolises strenth, elegance, and perseverance.|200|1'),
+(468, 120, 1, 'ACC-H21|Taxable Goods|Tang Dynasty Ceramic Horse|none|Featuring a bright and vibrant turquoise color, this replica of Tang Dynasty ceramic horse sculpture symbolises strenth, elegance, and perseverance.|200|1'),
+(466, 121, 1, 'ACC-H22|Taxable Goods|Tang Dynasty Ceramic Horse|none|Featuring a bright and vibrant turquoise color, this replica of Tang Dynasty ceramic horse sculpture symbolises strenth, elegance, and perseverance.|200|1'),
 (456, 122, 1, 'ACC-JS6|Taxable Goods|Ceramic Pot with Decorative Lid|none|A pretty blue & white ceramic pot with decorative lid. Handpainted with oriental orchid decoration in traditional blue this pretty ceramic pot would be a perfect decorative storage solution.|150|1'),
 (457, 123, 1, 'ACC-J7|Taxable Goods|Handpainted Round Ginger Jar with Lid|none|A pretty round ceramic jar with lid. Handpainted with oriental decorative patterns this pretty jar could make a beautiful ornament for any rooms or a pretty flower vase.|150|1'),
-(458, 124, 1, 'ACC-J8|Taxable Goods|Handpainted Temple jar with Lid|none|A ceramic temple jar handpainted with oriental decorative patterns. this pretty jar could make a beautiful ornament for any rooms or a pretty flower vase.|200|1'),
+(469, 124, 1, 'ACC-J8|Taxable Goods|Handpainted Temple jar with Lid|none|A ceramic temple jar handpainted with oriental decorative patterns. this pretty jar could make a beautiful ornament for any rooms or a pretty flower vase.|200|1'),
 (459, 127, 1, 'ACC-PS21|Taxable Goods|Antique Stool c.1900 Shanxi Province|none|Antique stool with distressed rustic look c.1900 Shanxi province. Traditionally used to keep feet off cold stone floor, these rustic charming wooden stools are an unique addition to any characteristic settings.|40|1'),
 (460, 128, 1, 'ACC-PS22|Taxable Goods|Antique Stool c.1900 Shanxi Province|none|Antique stool with distressed rustic look c.1900 Shanxi province. Traditionally used to keep feet off cold stone floor, these rustic charming wooden stools are an unique addition to any characteristic settings.|40|1'),
-(461, 129, 1, 'ACC-PS23|Taxable Goods|Antique Stool c.1900 Shanxi Province|none|Antique stool with distressed rustic look c.1900 Shanxi province. Traditionally used to keep feet off cold stone floor, these rustic charming wooden stools are an unique addition to any characteristic settings.|40|1'),
+(464, 129, 1, 'ACC-PS23|Taxable Goods|Antique Stool c.1900 Shanxi Province|none|Antique stool with distressed rustic look c.1900 Shanxi province. Traditionally used to keep feet off cold stone floor, these rustic charming wooden stools are an unique addition to any characteristic settings.|40|1'),
 (462, 125, 1, 'ACC-J9|Taxable Goods|Tall Ceramic Jar with Lid|none|Tall elegant blue & white lidded ceramic jar decorated with handpainted oriental orchid decoration. Featuring elegant shape and decorative details, this jar would make an attractive living room or impressive hallway ornament.|200|1'),
-(463, 126, 1, 'ACC-J10|Taxable Goods|Glazed Temple jar with Lid|none|An elegant temple jar made from Chinese ceramic. Painted with traditional Chinese lotus decoration in underglazed blue. Temple jars are very ornate and make an impressive feature in any rooms. Temple jars could also make practical uses as a grand storage vessels.|200|1');
+(465, 126, 1, 'ACC-J10|Taxable Goods|Glazed Temple jar with Lid|none|An elegant temple jar made from Chinese ceramic. Painted with traditional Chinese lotus decoration in underglazed blue. Temple jars are very ornate and make an impressive feature in any rooms. Temple jars could also make practical uses as a grand storage vessels.|200|1');
 
 -- --------------------------------------------------------
 
@@ -3986,7 +4099,7 @@ INSERT INTO `catalog_product_entity` (`entity_id`, `entity_type_id`, `attribute_
 (58, 4, 4, 'simple', 'Lu-058', 0, 0, '2015-01-03 18:54:09', '2015-01-03 22:53:52'),
 (59, 4, 4, 'simple', 'Lu-059', 0, 0, '2015-01-03 18:54:09', '2015-01-03 22:53:53'),
 (110, 4, 4, 'simple', 'ACC-J1', 0, 0, '2015-01-03 22:45:54', '2015-01-03 22:53:53'),
-(111, 4, 4, 'simple', 'ACC-J2', 0, 0, '2015-01-03 22:45:56', '2015-01-03 22:53:54'),
+(111, 4, 4, 'simple', 'ACC-J2', 0, 0, '2015-03-01 22:45:56', '2015-01-14 23:05:58'),
 (112, 4, 4, 'simple', 'ACC-J3', 0, 0, '2015-01-03 22:45:58', '2015-01-03 22:53:56'),
 (113, 4, 4, 'simple', 'ACC-J4', 0, 0, '2015-01-03 22:45:59', '2015-01-03 22:53:57'),
 (114, 4, 4, 'simple', 'ACC-J5', 0, 0, '2015-01-03 22:46:01', '2015-01-03 22:53:59'),
@@ -3995,16 +4108,16 @@ INSERT INTO `catalog_product_entity` (`entity_id`, `entity_type_id`, `attribute_
 (117, 4, 4, 'simple', 'ACC-H12', 0, 0, '2015-01-03 22:46:02', '2015-01-03 22:54:03'),
 (118, 4, 4, 'simple', 'ACC-H13', 0, 0, '2015-01-03 22:46:02', '2015-01-03 22:54:04'),
 (119, 4, 4, 'simple', 'ACC-H14', 0, 0, '2015-01-03 22:46:02', '2015-01-03 22:54:05'),
-(120, 4, 4, 'simple', 'ACC-H21', 0, 0, '2015-03-01 22:54:07', '2015-01-03 23:05:33'),
-(121, 4, 4, 'simple', 'ACC-H22', 0, 0, '2015-03-01 22:54:08', '2015-01-03 23:05:51'),
+(120, 4, 4, 'simple', 'ACC-H21', 0, 0, '2015-01-03 22:54:07', '2015-01-14 23:06:29'),
+(121, 4, 4, 'simple', 'ACC-H22', 0, 0, '2015-01-03 22:54:08', '2015-01-14 23:05:30'),
 (122, 4, 4, 'simple', 'ACC-JS6', 0, 0, '2015-03-01 22:54:10', '2015-01-03 23:06:38'),
 (123, 4, 4, 'simple', 'ACC-J7', 0, 0, '2015-03-01 22:54:11', '2015-01-03 23:07:31'),
-(124, 4, 4, 'simple', 'ACC-J8', 0, 0, '2015-03-01 22:54:12', '2015-01-03 23:07:56'),
+(124, 4, 4, 'simple', 'ACC-J8', 0, 0, '2015-01-03 22:54:12', '2015-01-14 23:07:39'),
 (125, 4, 4, 'simple', 'ACC-J9', 0, 0, '2015-03-01 22:54:14', '2015-01-03 23:10:05'),
-(126, 4, 4, 'simple', 'ACC-J10', 0, 0, '2015-03-01 22:54:15', '2015-01-03 23:10:19'),
+(126, 4, 4, 'simple', 'ACC-J10', 0, 0, '2015-01-03 22:54:15', '2015-01-14 23:05:02'),
 (127, 4, 4, 'simple', 'ACC-PS21', 0, 0, '2015-03-01 22:54:16', '2015-01-03 23:09:03'),
 (128, 4, 4, 'simple', 'ACC-PS22', 0, 0, '2015-03-01 22:54:18', '2015-01-03 23:09:22'),
-(129, 4, 4, 'simple', 'ACC-PS23', 0, 0, '2015-03-01 22:54:18', '2015-01-03 23:09:44');
+(129, 4, 4, 'simple', 'ACC-PS23', 0, 0, '2015-01-03 22:54:18', '2015-01-14 23:03:55');
 
 -- --------------------------------------------------------
 
@@ -4024,7 +4137,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_datetime` (
   KEY `IDX_CATALOG_PRODUCT_ENTITY_DATETIME_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_DATETIME_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_DATETIME_ENTITY_ID` (`entity_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Datetime Attribute Backend Table' AUTO_INCREMENT=127 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Datetime Attribute Backend Table' AUTO_INCREMENT=163 ;
 
 --
 -- Dumping data for table `catalog_product_entity_datetime`
@@ -4033,12 +4146,12 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_datetime` (
 INSERT INTO `catalog_product_entity_datetime` (`value_id`, `entity_type_id`, `attribute_id`, `store_id`, `entity_id`, `value`) VALUES
 (67, 4, 93, 0, 120, NULL),
 (68, 4, 94, 0, 120, NULL),
-(69, 4, 77, 0, 120, NULL),
-(70, 4, 78, 0, 120, NULL),
+(69, 4, 77, 0, 120, '2015-01-13 00:00:00'),
+(70, 4, 78, 0, 120, '2015-03-19 00:00:00'),
 (71, 4, 104, 0, 120, NULL),
 (72, 4, 105, 0, 120, NULL),
-(73, 4, 93, 0, 121, NULL),
-(74, 4, 94, 0, 121, NULL),
+(73, 4, 93, 0, 121, '2015-01-13 00:00:00'),
+(74, 4, 94, 0, 121, '2015-02-18 00:00:00'),
 (75, 4, 77, 0, 121, NULL),
 (76, 4, 78, 0, 121, NULL),
 (77, 4, 104, 0, 121, NULL),
@@ -4055,10 +4168,10 @@ INSERT INTO `catalog_product_entity_datetime` (`value_id`, `entity_type_id`, `at
 (88, 4, 78, 0, 123, NULL),
 (89, 4, 104, 0, 123, NULL),
 (90, 4, 105, 0, 123, NULL),
-(91, 4, 93, 0, 124, NULL),
-(92, 4, 94, 0, 124, NULL),
-(93, 4, 77, 0, 124, NULL),
-(94, 4, 78, 0, 124, NULL),
+(91, 4, 93, 0, 124, '2015-01-14 00:00:00'),
+(92, 4, 94, 0, 124, '2015-01-31 00:00:00'),
+(93, 4, 77, 0, 124, '2015-01-13 00:00:00'),
+(94, 4, 78, 0, 124, '2015-03-01 00:00:00'),
 (95, 4, 104, 0, 124, NULL),
 (96, 4, 105, 0, 124, NULL),
 (97, 4, 93, 0, 127, NULL),
@@ -4073,10 +4186,10 @@ INSERT INTO `catalog_product_entity_datetime` (`value_id`, `entity_type_id`, `at
 (106, 4, 78, 0, 128, NULL),
 (107, 4, 104, 0, 128, NULL),
 (108, 4, 105, 0, 128, NULL),
-(109, 4, 93, 0, 129, NULL),
-(110, 4, 94, 0, 129, NULL),
-(111, 4, 77, 0, 129, NULL),
-(112, 4, 78, 0, 129, NULL),
+(109, 4, 93, 0, 129, '2015-01-14 00:00:00'),
+(110, 4, 94, 0, 129, '2015-01-31 00:00:00'),
+(111, 4, 77, 0, 129, '2015-01-14 00:00:00'),
+(112, 4, 78, 0, 129, '2015-01-31 00:00:00'),
 (113, 4, 104, 0, 129, NULL),
 (114, 4, 105, 0, 129, NULL),
 (115, 4, 93, 0, 125, NULL),
@@ -4085,12 +4198,18 @@ INSERT INTO `catalog_product_entity_datetime` (`value_id`, `entity_type_id`, `at
 (118, 4, 78, 0, 125, NULL),
 (119, 4, 104, 0, 125, NULL),
 (120, 4, 105, 0, 125, NULL),
-(121, 4, 93, 0, 126, NULL),
-(122, 4, 94, 0, 126, NULL),
+(121, 4, 93, 0, 126, '2015-01-01 00:00:00'),
+(122, 4, 94, 0, 126, '2015-01-31 00:00:00'),
 (123, 4, 77, 0, 126, NULL),
 (124, 4, 78, 0, 126, NULL),
 (125, 4, 104, 0, 126, NULL),
-(126, 4, 105, 0, 126, NULL);
+(126, 4, 105, 0, 126, NULL),
+(145, 4, 93, 0, 111, NULL),
+(146, 4, 94, 0, 111, NULL),
+(147, 4, 77, 0, 111, '2015-01-13 00:00:00'),
+(148, 4, 78, 0, 111, '2015-02-28 00:00:00'),
+(149, 4, 104, 0, 111, NULL),
+(150, 4, 105, 0, 111, NULL);
 
 -- --------------------------------------------------------
 
@@ -4110,7 +4229,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_decimal` (
   KEY `IDX_CATALOG_PRODUCT_ENTITY_DECIMAL_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_DECIMAL_ENTITY_ID` (`entity_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_DECIMAL_ATTRIBUTE_ID` (`attribute_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Decimal Attribute Backend Table' AUTO_INCREMENT=1050 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Decimal Attribute Backend Table' AUTO_INCREMENT=1068 ;
 
 --
 -- Dumping data for table `catalog_product_entity_decimal`
@@ -4275,7 +4394,7 @@ INSERT INTO `catalog_product_entity_decimal` (`value_id`, `entity_type_id`, `att
 (988, 4, 80, 0, 128, '10.0000'),
 (989, 4, 75, 0, 129, '40.0000'),
 (990, 4, 80, 0, 129, '10.0000'),
-(1021, 4, 76, 0, 120, NULL),
+(1021, 4, 76, 0, 120, '100.0000'),
 (1022, 4, 120, 0, 120, NULL),
 (1024, 4, 76, 0, 121, NULL),
 (1025, 4, 120, 0, 121, NULL),
@@ -4283,18 +4402,20 @@ INSERT INTO `catalog_product_entity_decimal` (`value_id`, `entity_type_id`, `att
 (1028, 4, 120, 0, 122, NULL),
 (1030, 4, 76, 0, 123, NULL),
 (1031, 4, 120, 0, 123, NULL),
-(1033, 4, 76, 0, 124, NULL),
+(1033, 4, 76, 0, 124, '150.0000'),
 (1034, 4, 120, 0, 124, NULL),
 (1036, 4, 76, 0, 127, NULL),
 (1037, 4, 120, 0, 127, NULL),
 (1039, 4, 76, 0, 128, NULL),
 (1040, 4, 120, 0, 128, NULL),
-(1042, 4, 76, 0, 129, NULL),
+(1042, 4, 76, 0, 129, '20.0000'),
 (1043, 4, 120, 0, 129, NULL),
 (1045, 4, 76, 0, 125, NULL),
 (1046, 4, 120, 0, 125, NULL),
 (1048, 4, 76, 0, 126, NULL),
-(1049, 4, 120, 0, 126, NULL);
+(1049, 4, 120, 0, 126, NULL),
+(1059, 4, 76, 0, 111, '100.0000'),
+(1060, 4, 120, 0, 111, NULL);
 
 -- --------------------------------------------------------
 
@@ -4355,7 +4476,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_int` (
   KEY `IDX_CATALOG_PRODUCT_ENTITY_INT_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_INT_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_INT_ENTITY_ID` (`entity_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Integer Attribute Backend Table' AUTO_INCREMENT=1500 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Integer Attribute Backend Table' AUTO_INCREMENT=1501 ;
 
 --
 -- Dumping data for table `catalog_product_entity_int`
@@ -4608,7 +4729,8 @@ INSERT INTO `catalog_product_entity_int` (`value_id`, `entity_type_id`, `attribu
 (1496, 4, 100, 0, 128, 0),
 (1497, 4, 100, 0, 129, 0),
 (1498, 4, 100, 0, 125, 0),
-(1499, 4, 100, 0, 126, 0);
+(1499, 4, 100, 0, 126, 0),
+(1500, 4, 100, 0, 111, 0);
 
 -- --------------------------------------------------------
 
@@ -5608,7 +5730,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_text` (
   KEY `IDX_CATALOG_PRODUCT_ENTITY_TEXT_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_TEXT_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_TEXT_ENTITY_ID` (`entity_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Text Attribute Backend Table' AUTO_INCREMENT=1031 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Text Attribute Backend Table' AUTO_INCREMENT=1043 ;
 
 --
 -- Dumping data for table `catalog_product_entity_text`
@@ -5792,7 +5914,9 @@ INSERT INTO `catalog_product_entity_text` (`value_id`, `entity_type_id`, `attrib
 (1027, 4, 83, 0, 125, NULL),
 (1028, 4, 106, 0, 125, NULL),
 (1029, 4, 83, 0, 126, NULL),
-(1030, 4, 106, 0, 126, NULL);
+(1030, 4, 106, 0, 126, NULL),
+(1037, 4, 83, 0, 111, NULL),
+(1038, 4, 106, 0, 111, NULL);
 
 -- --------------------------------------------------------
 
@@ -5833,7 +5957,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_varchar` (
   KEY `IDX_CATALOG_PRODUCT_ENTITY_VARCHAR_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_VARCHAR_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_VARCHAR_ENTITY_ID` (`entity_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Varchar Attribute Backend Table' AUTO_INCREMENT=4463 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catalog Product Varchar Attribute Backend Table' AUTO_INCREMENT=4511 ;
 
 --
 -- Dumping data for table `catalog_product_entity_varchar`
@@ -6808,7 +6932,15 @@ INSERT INTO `catalog_product_entity_varchar` (`value_id`, `entity_type_id`, `att
 (4459, 4, 122, 0, 126, NULL),
 (4460, 4, 112, 0, 126, NULL),
 (4461, 4, 113, 0, 126, NULL),
-(4462, 4, 114, 0, 126, NULL);
+(4462, 4, 114, 0, 126, NULL),
+(4487, 4, 82, 0, 111, NULL),
+(4488, 4, 84, 0, 111, NULL),
+(4489, 4, 103, 0, 111, NULL),
+(4490, 4, 107, 0, 111, NULL),
+(4491, 4, 122, 0, 111, NULL),
+(4492, 4, 112, 0, 111, NULL),
+(4493, 4, 113, 0, 111, NULL),
+(4494, 4, 114, 0, 111, NULL);
 
 -- --------------------------------------------------------
 
@@ -7133,6 +7265,13 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_eav_tmp` (
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_TMP_VALUE` (`value`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Indexer Temp Table';
 
+--
+-- Dumping data for table `catalog_product_index_eav_tmp`
+--
+
+INSERT INTO `catalog_product_index_eav_tmp` (`entity_id`, `attribute_id`, `store_id`, `value`) VALUES
+(124, 121, 1, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -7418,10 +7557,10 @@ INSERT INTO `catalog_product_index_price` (`entity_id`, `customer_group_id`, `we
 (110, 1, 1, 2, '150.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
 (110, 2, 1, 2, '150.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
 (110, 3, 1, 2, '150.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
-(111, 0, 1, 2, '150.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
-(111, 1, 1, 2, '150.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
-(111, 2, 1, 2, '150.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
-(111, 3, 1, 2, '150.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
+(111, 0, 1, 2, '150.0000', '100.0000', '100.0000', '100.0000', NULL, NULL),
+(111, 1, 1, 2, '150.0000', '100.0000', '100.0000', '100.0000', NULL, NULL),
+(111, 2, 1, 2, '150.0000', '100.0000', '100.0000', '100.0000', NULL, NULL),
+(111, 3, 1, 2, '150.0000', '100.0000', '100.0000', '100.0000', NULL, NULL),
 (112, 0, 1, 2, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
 (112, 1, 1, 2, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
 (112, 2, 1, 2, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
@@ -7454,10 +7593,10 @@ INSERT INTO `catalog_product_index_price` (`entity_id`, `customer_group_id`, `we
 (119, 1, 1, 2, '150.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
 (119, 2, 1, 2, '150.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
 (119, 3, 1, 2, '150.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
-(120, 0, 1, 2, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
-(120, 1, 1, 2, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
-(120, 2, 1, 2, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
-(120, 3, 1, 2, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
+(120, 0, 1, 2, '200.0000', '100.0000', '100.0000', '100.0000', NULL, NULL),
+(120, 1, 1, 2, '200.0000', '100.0000', '100.0000', '100.0000', NULL, NULL),
+(120, 2, 1, 2, '200.0000', '100.0000', '100.0000', '100.0000', NULL, NULL),
+(120, 3, 1, 2, '200.0000', '100.0000', '100.0000', '100.0000', NULL, NULL),
 (121, 0, 1, 2, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
 (121, 1, 1, 2, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
 (121, 2, 1, 2, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
@@ -7470,10 +7609,10 @@ INSERT INTO `catalog_product_index_price` (`entity_id`, `customer_group_id`, `we
 (123, 1, 1, 2, '150.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
 (123, 2, 1, 2, '150.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
 (123, 3, 1, 2, '150.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
-(124, 0, 1, 2, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
-(124, 1, 1, 2, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
-(124, 2, 1, 2, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
-(124, 3, 1, 2, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
+(124, 0, 1, 2, '200.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
+(124, 1, 1, 2, '200.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
+(124, 2, 1, 2, '200.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
+(124, 3, 1, 2, '200.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
 (125, 0, 1, 2, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
 (125, 1, 1, 2, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
 (125, 2, 1, 2, '200.0000', '200.0000', '200.0000', '200.0000', NULL, NULL),
@@ -7490,10 +7629,10 @@ INSERT INTO `catalog_product_index_price` (`entity_id`, `customer_group_id`, `we
 (128, 1, 1, 2, '40.0000', '40.0000', '40.0000', '40.0000', NULL, NULL),
 (128, 2, 1, 2, '40.0000', '40.0000', '40.0000', '40.0000', NULL, NULL),
 (128, 3, 1, 2, '40.0000', '40.0000', '40.0000', '40.0000', NULL, NULL),
-(129, 0, 1, 2, '40.0000', '40.0000', '40.0000', '40.0000', NULL, NULL),
-(129, 1, 1, 2, '40.0000', '40.0000', '40.0000', '40.0000', NULL, NULL),
-(129, 2, 1, 2, '40.0000', '40.0000', '40.0000', '40.0000', NULL, NULL),
-(129, 3, 1, 2, '40.0000', '40.0000', '40.0000', '40.0000', NULL, NULL);
+(129, 0, 1, 2, '40.0000', '20.0000', '20.0000', '20.0000', NULL, NULL),
+(129, 1, 1, 2, '40.0000', '20.0000', '20.0000', '20.0000', NULL, NULL),
+(129, 2, 1, 2, '40.0000', '20.0000', '20.0000', '20.0000', NULL, NULL),
+(129, 3, 1, 2, '40.0000', '20.0000', '20.0000', '20.0000', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -8169,6 +8308,16 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_tmp` (
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_TMP_MIN_PRICE` (`min_price`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Temp Table';
 
+--
+-- Dumping data for table `catalog_product_index_price_tmp`
+--
+
+INSERT INTO `catalog_product_index_price_tmp` (`entity_id`, `customer_group_id`, `website_id`, `tax_class_id`, `price`, `final_price`, `min_price`, `max_price`, `tier_price`, `group_price`) VALUES
+(124, 0, 1, 2, '200.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
+(124, 1, 1, 2, '200.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
+(124, 2, 1, 2, '200.0000', '150.0000', '150.0000', '150.0000', NULL, NULL),
+(124, 3, 1, 2, '200.0000', '150.0000', '150.0000', '150.0000', NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -8204,7 +8353,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_website` (
 --
 
 INSERT INTO `catalog_product_index_website` (`website_id`, `website_date`, `rate`) VALUES
-(1, '2015-01-03', 1);
+(1, '2015-01-14', 1);
 
 -- --------------------------------------------------------
 
@@ -8654,7 +8803,7 @@ CREATE TABLE IF NOT EXISTS `cms_block` (
   `update_time` timestamp NULL DEFAULT NULL COMMENT 'Block Modification Time',
   `is_active` smallint(6) NOT NULL DEFAULT '1' COMMENT 'Is Block Active',
   PRIMARY KEY (`block_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='CMS Block Table' AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='CMS Block Table' AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `cms_block`
@@ -8663,7 +8812,14 @@ CREATE TABLE IF NOT EXISTS `cms_block` (
 INSERT INTO `cms_block` (`block_id`, `title`, `identifier`, `content`, `creation_time`, `update_time`, `is_active`) VALUES
 (1, 'Footer Links', 'footer_links', '\r\n<ul>\r\n    <li><a href="{{store direct_url="about-magento-demo-store"}}">About Us</a></li>\r\n    <li><a href="{{store direct_url="customer-service"}}">Customer Service</a></li>\r\n<li class="last privacy"><a href="{{store direct_url="privacy-policy-cookie-restriction-mode"}}">Privacy Policy</a></li>\r\n</ul>', '2015-01-03 14:08:09', '2015-01-03 14:08:09', 1),
 (2, 'Footer Links Company', 'footer_links_company', '\r\n<div class="links">\r\n    <div class="block-title">\r\n        <strong><span>Company</span></strong>\r\n    </div>\r\n    <ul>\r\n        <li><a href="{{store url=""}}about-magento-demo-store/">About Us</a></li>\r\n        <li><a href="{{store url=""}}contacts/">Contact Us</a></li>\r\n        <li><a href="{{store url=""}}customer-service/">Customer Service</a></li>\r\n        <li><a href="{{store url=""}}privacy-policy-cookie-restriction-mode/">Privacy Policy</a></li>\r\n    </ul>\r\n</div>', '2015-01-03 14:08:09', '2015-01-03 14:08:09', 1),
-(3, 'Cookie restriction notice', 'cookie_restriction_notice_block', '<p>This website requires cookies to provide all of its features. For more information on what data is contained in the cookies, please see our <a href="{{store direct_url="privacy-policy-cookie-restriction-mode"}}">Privacy Policy page</a>. To accept cookies from this site, please click the Allow button below.</p>', '2015-01-03 14:08:09', '2015-01-03 14:08:09', 1);
+(3, 'Cookie restriction notice', 'cookie_restriction_notice_block', '<p>This website requires cookies to provide all of its features. For more information on what data is contained in the cookies, please see our <a href="{{store direct_url="privacy-policy-cookie-restriction-mode"}}">Privacy Policy page</a>. To accept cookies from this site, please click the Allow button below.</p>', '2015-01-03 14:08:09', '2015-01-03 14:08:09', 1),
+(4, 'revolution_slider', 'revolution_slider', '<!-- Revolution slider -->\r\n<div class="fullwidthbanner-container" style="max-height: 480px; overflow: hidden;">\r\n<div class="fullwidthbanner">\r\n<ul><!-- THE 1 SLIDE -->\r\n<li data-masterspeed="300" data-slotamount="0" data-transition="slotslide-vertical"><!-- THE MAIN IMAGE IN THE FIRST SLIDE --><img src="{{media url="wysiwyg/simplegreat/revolution-images/slides/slide1/background.jpg"}}" alt="" /> <!-- THE CAPTIONS IN THIS SLIDE -->\r\n<div class="caption sfl" data-easing="easeOutBack" data-speed="1000" data-start="1600" data-x="265" data-y="70"><a href="#"><img src="{{media url="wysiwyg/simplegreat/revolution-images/slides/slide1/objects.png"}}" alt="" /></a></div>\r\n<div class="caption sfr revolution_header1" data-easing="easeOutBack" data-speed="500" data-start="800" data-x="295" data-y="210">This is the most beautiful<br /> theme with minimal style</div>\r\n<div class="caption sfb" data-easing="easeOutBack" data-speed="500" data-start="1200" data-x="375" data-y="323"><a href="#"><img src="{{media url="wysiwyg/simplegreat/revolution-images/slides/button.png"}}" alt="" /></a></div>\r\n</li>\r\n<!-- THE 2 SLIDE -->\r\n<li data-masterspeed="300" data-slotamount="0" data-transition="curtain-3"><img src="{{media url="wysiwyg/simplegreat/revolution-images/slides/slide2/background.jpg"}}" alt="" /> <!-- THE CAPTIONS IN THIS SLIDE -->\r\n<div class="caption sfl" data-easing="easeOutBack" data-speed="1000" data-start="1600" data-x="265" data-y="70"><a href="#"><img src="{{media url="wysiwyg/simplegreat/revolution-images/slides/slide2/objects.png"}}" alt="" /></a></div>\r\n<div class="caption sfr revolution_header1" data-easing="easeOutBack" data-speed="500" data-start="800" data-x="305" data-y="210">Adaptive theme design<br /> for tablets and mobile</div>\r\n<div class="caption sfb" data-easing="easeOutBack" data-speed="500" data-start="1200" data-x="375" data-y="323"><a href="#"><img src="{{media url="wysiwyg/simplegreat/revolution-images/slides/button.png"}}" alt="" /></a></div>\r\n</li>\r\n<!-- THE 3 SLIDE -->\r\n<li data-masterspeed="300" data-slotamount="0" data-transition="boxfade"><img src="{{media url="wysiwyg/simplegreat/revolution-images/slides/slide3/background.jpg"}}" alt="" /> <!-- THE CAPTIONS IN THIS SLIDE --> <!-- THE CAPTIONS IN THIS SLIDE -->\r\n<div class="caption sfl" data-easing="easeOutBack" data-speed="1000" data-start="1600" data-x="265" data-y="70"><a href="#"><img src="{{media url="wysiwyg/simplegreat/revolution-images/slides/slide3/objects.png"}}" alt="" /></a></div>\r\n<div class="caption sfr revolution_header1" data-easing="easeOutBack" data-speed="500" data-start="800" data-x="285" data-y="210">With 300+ features, options<br /> and settings</div>\r\n<div class="caption sfb" data-easing="easeOutBack" data-speed="500" data-start="1200" data-x="375" data-y="323"><a href="#"><img src="{{media url="wysiwyg/simplegreat/revolution-images/slides/button.png"}}" alt="" /></a></div>\r\n</li>\r\n</ul>\r\n<div class="tp-bannertimer">&nbsp;</div>\r\n</div>\r\n</div>\r\n<!-- / Revolution slider -->', '2015-01-14 22:53:08', '2015-01-14 22:53:08', 1),
+(5, 'shop_promo_block', 'shop_promo_block', '<div class="promo-block clearfix">\r\n<div class="promo-box">\r\n<h2>Amazing</h2>\r\n<h1>You can buy it</h1>\r\n<a class="image-link" href="#"><img class="fade-image" src="{{media url="wysiwyg/simplegreat/promo1.png"}}" alt="" /></a></div>\r\n<div class="promo-box">\r\n<h2>Our store</h2>\r\n<h1>Find us</h1>\r\n<a class="image-link" href="#"><img class="fade-image" src="{{media url="wysiwyg/simplegreat/promo2.png"}}" alt="" /></a></div>\r\n<div class="promo-box">\r\n<h2>Enjoy</h2>\r\n<h1>Summer and sun</h1>\r\n<a class="image-link" href="#"><img class="fade-image" src="{{media url="wysiwyg/simplegreat/promo3.png"}}" alt="" /></a></div>\r\n</div>', '2015-01-14 22:56:41', '2015-01-14 22:56:41', 1),
+(6, 'footer_menu', 'footer_menu', '<div class="column">\r\n<h3>Information</h3>\r\n<ul>\r\n<li><a href="#">About Us</a></li>\r\n<li><a href="#">Delivery Information</a></li>\r\n<li><a href="#">Privacy Policy</a></li>\r\n<li><a href="#">Terms &amp; Conditions</a></li>\r\n</ul>\r\n</div>\r\n<div class="column">\r\n<h3>Customer Service</h3>\r\n<ul>\r\n<li><a href="#">Contact Us</a></li>\r\n<li><a href="#">Returns</a></li>\r\n<li><a href="#">Site Map</a></li>\r\n</ul>\r\n</div>\r\n<div class="column">\r\n<h3>Extras</h3>\r\n<ul>\r\n<li><a href="#">Brands</a></li>\r\n<li><a href="#">Gift Vouchers</a></li>\r\n<li><a href="#">Affiliates</a></li>\r\n<li><a href="#">Specials</a></li>\r\n</ul>\r\n</div>\r\n<div class="column">\r\n<h3>Contact us</h3>\r\n<div class="custom-footer-contact">\r\n<div class="address">\r\n<div class="contact-icon">&nbsp;</div>\r\n<div class="info">Lingeries Store 34 New Clity 5655, Excel Tower OPG Rpad</div>\r\n</div>\r\n<div class="phone">\r\n<div class="contact-icon">&nbsp;</div>\r\n<div class="info">8(802)234-5678</div>\r\n</div>\r\n<div class="email">\r\n<div class="contact-icon">&nbsp;</div>\r\n<div class="info"><a href="mailto:sales@shop.com">sales@shop.com</a></div>\r\n</div>\r\n</div>\r\n</div>', '2015-01-14 22:59:45', '2015-01-14 22:59:45', 1),
+(7, 'shop_about_block', 'shop_about_block', '<div class="shop-about clearfix">\r\n<div class="shop-about-news">\r\n<h2>Latest posts</h2>\r\n<h1>Our blog</h1>\r\n{{widget type="blog/last" blocks_count="10" categories="1"}}</div>\r\n<div class="shop-about-text">\r\n<h2>Who we are</h2>\r\n<h1>About us</h1>\r\n<div class="text">Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt. You can change this text in theme admin panel.\r\n<div><a class="more" href="#">Read more</a></div>\r\n</div>\r\n</div>\r\n<div class="shop-about-slider">\r\n<ul class="bxslider">\r\n<li><a href="#"><img src="{{media url="wysiwyg/simplegreat/about-slide1.jpg"}}" alt="" /></a></li>\r\n<li><a href="#"><img src="{{media url="wysiwyg/simplegreat/about-slide2.jpg"}}" alt="" /></a></li>\r\n<li><a href="#"><img src="{{media url="wysiwyg/simplegreat/about-slide3.jpg"}}" alt="" /></a></li>\r\n</ul>\r\n</div>\r\n</div>', '2015-01-14 23:00:13', '2015-01-14 23:00:13', 1),
+(8, 'footer_payment_icons', 'footer_payment_icons', '<div id="paymenticons"><a href="http://paypal.com" target="_blank"><img src="{{media url="wysiwyg/simplegreat/payment/PayPal.png"}}" alt="" align="absmiddle" /></a><a href="http://www.visa.com/" target="_blank"><img src="{{media url="wysiwyg/simplegreat/payment/Visa.png"}}" alt="" align="absmiddle" /></a><a href="http://www.mastercard.com" target="_blank"><img src="{{media url="wysiwyg/simplegreat/payment/MasterCard.png"}}" alt="" align="absmiddle" /></a><a href="https://www.discover.com/" target="_blank"><img src="{{media url="wysiwyg/simplegreat/payment/Discover.png"}}" alt="" align="absmiddle" /></a><a href="https://www.americanexpress.com/ " target="_blank"><img src="{{media url="wysiwyg/simplegreat/payment/AmericanExpress.png"}}" alt="" align="absmiddle" /></a><a href="http://www.cirrus.com/" target="_blank"><img src="{{media url="wysiwyg/simplegreat/payment/Cirrus.png"}}" alt="" align="absmiddle" /></a><a href="http://maestrocard.com//" target="_blank"><img src="{{media url="wysiwyg/simplegreat/payment/Maestro.png"}}" alt="" align="absmiddle" /></a><a href="http://www.visa.com/" target="_blank"><img src="{{media url="wysiwyg/simplegreat/payment/VisaElectron.png"}}" alt="" align="absmiddle" /></a></div>', '2015-01-14 23:00:37', '2015-01-14 23:00:37', 1),
+(9, 'footer_social_icons', 'footer_social_icons', '<div class="footer-social clearfix"><span> <a class="facebook" href="http://facebook.com/pages/dx/115403961948855" target="_blank">Facebook</a> <a class="twitter" href="http://twitter.com/dedalx" target="_blank">Twitter</a> <a class="pinterest" href="http://pinterest.com" target="_blank">Pinterest</a> <a class="google" href="http://plus.google.com/" target="_blank">Google</a> <a class="flickr" href="http://flickr.com" target="_blank">Flickr</a> <a class="tumblr" href="http://tumblr.com" target="_blank">Tumblr</a> <a class="vimeo" href="http://vimeo.com" target="_blank">Vimeo</a> <a class="youtube" href="http://youtube.com/" target="_blank">Youtube</a> <a class="skype" href="skype://simplegreat" target="_blank">simplegreat</a> <a class="rss" href="http://dedalx.com" target="_blank">RSS</a> </span></div>', '2015-01-14 23:01:01', '2015-01-14 23:01:01', 1),
+(10, 'shop_subscribe_block', 'shop_subscribe_block', '<div class="shop-newsletter clearfix">\r\n<div class="subscribe-logo">Need help? <a href="#">mail us</a></div>\r\n<div class="subscribe-form"><!-- Begin MailChimp Signup Form -->\r\n<div id="mc_embed_signup"><form id="mc-embedded-subscribe-form" class="validate" action="http://appreviewservice.us2.list-manage.com/subscribe/post?u=5637c5d55f7db55dba7d2cda4&amp;id=b1ecefacf3" method="post" name="mc-embedded-subscribe-form" target="_blank"><label for="mce-EMAIL">Newsletter</label> <input id="mce-EMAIL" class="email" type="email" name="EMAIL" value="" /> <input id="mc-embedded-subscribe" class="button" type="submit" name="subscribe" value="Subscribe" />&nbsp;</form></div>\r\n<!--End mc_embed_signup--></div>\r\n</div>', '2015-01-14 23:01:39', '2015-01-14 23:01:39', 1);
 
 -- --------------------------------------------------------
 
@@ -8685,7 +8841,14 @@ CREATE TABLE IF NOT EXISTS `cms_block_store` (
 INSERT INTO `cms_block_store` (`block_id`, `store_id`) VALUES
 (1, 0),
 (2, 0),
-(3, 0);
+(3, 0),
+(4, 1),
+(5, 1),
+(6, 1),
+(7, 1),
+(8, 1),
+(9, 1),
+(10, 1);
 
 -- --------------------------------------------------------
 
@@ -8722,7 +8885,7 @@ CREATE TABLE IF NOT EXISTS `cms_page` (
 
 INSERT INTO `cms_page` (`page_id`, `title`, `root_template`, `meta_keywords`, `meta_description`, `identifier`, `content_heading`, `content`, `creation_time`, `update_time`, `is_active`, `sort_order`, `layout_update_xml`, `custom_theme`, `custom_root_template`, `custom_layout_update_xml`, `custom_theme_from`, `custom_theme_to`) VALUES
 (1, '404 Not Found 1', 'two_columns_right', 'Page keywords', 'Page description', 'no-route', NULL, '\r\n<div class="page-title"><h1>Whoops, our bad...</h1></div>\r\n<dl>\r\n    <dt>The page you requested was not found, and we have a fine guess why.</dt>\r\n    <dd>\r\n        <ul class="disc">\r\n            <li>If you typed the URL directly, please make sure the spelling is correct.</li>\r\n            <li>If you clicked on a link to get here, the link is outdated.</li>\r\n        </ul>\r\n    </dd>\r\n</dl>\r\n<dl>\r\n    <dt>What can you do?</dt>\r\n    <dd>Have no fear, help is near! There are many ways you can get back on track with Magento Store.</dd>\r\n    <dd>\r\n        <ul class="disc">\r\n            <li><a href="#" onclick="history.go(-1); return false;">Go back</a> to the previous page.</li>\r\n            <li>Use the search bar at the top of the page to search for your products.</li>\r\n            <li>Follow these links to get you back on track!<br /><a href="{{store url=""}}">Store Home</a>\r\n            <span class="separator">|</span> <a href="{{store url="customer/account"}}">My Account</a></li>\r\n        </ul>\r\n    </dd>\r\n</dl>\r\n', '2015-01-03 14:08:09', '2015-01-03 14:08:09', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL),
-(2, 'Home page', 'two_columns_right', NULL, NULL, 'home', NULL, '<div class="page-title"><h2>Home Page</h2></div>', '2015-01-03 14:08:09', '2015-01-03 14:08:14', 1, 0, '<!--<reference name="content">\r\n        <block type="catalog/product_new" name="home.catalog.product.new" alias="product_new" template="catalog/product/new.phtml" after="cms_page">\r\n            <action method="addPriceBlockType">\r\n                <type>bundle</type>\r\n                <block>bundle/catalog_product_price</block>\r\n                <template>bundle/catalog/product/price.phtml</template>\r\n            </action>\r\n        </block>\r\n        <block type="reports/product_viewed" name="home.reports.product.viewed" alias="product_viewed" template="reports/home_product_viewed.phtml" after="product_new">\r\n            <action method="addPriceBlockType">\r\n                <type>bundle</type>\r\n                <block>bundle/catalog_product_price</block>\r\n                <template>bundle/catalog/product/price.phtml</template>\r\n            </action>\r\n        </block>\r\n        <block type="reports/product_compared" name="home.reports.product.compared" template="reports/home_product_compared.phtml" after="product_viewed">\r\n            <action method="addPriceBlockType">\r\n                <type>bundle</type>\r\n                <block>bundle/catalog_product_price</block>\r\n                <template>bundle/catalog/product/price.phtml</template>\r\n            </action>\r\n        </block>\r\n    </reference>\r\n    <reference name="right">\r\n        <action method="unsetChild"><alias>right.reports.product.viewed</alias></action>\r\n        <action method="unsetChild"><alias>right.reports.product.compared</alias></action>\r\n    </reference>-->', NULL, NULL, NULL, NULL, NULL),
+(2, 'Home page', 'one_column', NULL, NULL, 'home', NULL, '<p>{{block type="cms/block" block_id="shop_promo_block" template="cms/content.phtml"}}</p>\r\n<div class="module-box">\r\n<h2>Some new products for you</h2>\r\n<div class="box-heading module">Latest</div>\r\n<div class="clear">&nbsp;</div>\r\n<p>{{block type="catalog/product_new" name="simplegreat.catalog.product.new" alias="product_homepage" template="catalog/product/new.phtml"}}</p>\r\n</div>\r\n<p>{{block type="cms/block" block_id="shop_about_block" template="cms/content.phtml"}}</p>\r\n<div class="module-box">\r\n<h2>Sale products</h2>\r\n<div class="box-heading module">Discounted products</div>\r\n<div class="clear">&nbsp;</div>\r\n<p>{{block type="catalog/product_special" name="simplegreat.catalog.product.special" alias="product_homepage" template="catalog/product/special.phtml"}}</p>\r\n</div>\r\n<p>{{block type="cms/block" block_id="shop_subscribe_block" template="cms/content.phtml"}}</p>', '2015-01-03 14:08:09', '2015-01-14 22:50:43', 1, 0, '<!--<reference name="content">\r\n<block type="catalog/product_new" name="home.catalog.product.new" alias="product_new" template="catalog/product/new.phtml" after="cms_page"><action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block>\r\n<template>bundle/catalog/product/price.phtml</template></action></block>\r\n<block type="reports/product_viewed" name="home.reports.product.viewed" alias="product_viewed" template="reports/home_product_viewed.phtml" after="product_new"><action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block>\r\n<template>bundle/catalog/product/price.phtml</template></action></block>\r\n<block type="reports/product_compared" name="home.reports.product.compared" template="reports/home_product_compared.phtml" after="product_viewed"><action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block>\r\n<template>bundle/catalog/product/price.phtml</template></action></block>\r\n</reference><reference name="right">\r\n<action method="unsetChild"><alias>right.reports.product.viewed</alias></action>\r\n<action method="unsetChild"><alias>right.reports.product.compared</alias></action>\r\n</reference>-->', NULL, NULL, NULL, NULL, NULL),
 (3, 'About Us', 'two_columns_right', NULL, NULL, 'about-magento-demo-store', NULL, '\r\n<div class="page-title">\r\n    <h1>About Magento Store</h1>\r\n</div>\r\n<div class="col3-set">\r\n<div class="col-1"><p style="line-height:1.2em;"><small>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\r\nMorbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec,\r\ntempus vitae, iaculis semper, pede.</small></p>\r\n<p style="color:#888; font:1.2em/1.4em georgia, serif;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\r\nMorbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis,\r\nporta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta.</p></div>\r\n<div class="col-2">\r\n<p><strong style="color:#de036f;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus.\r\nDuis lobortis. Nulla nec velit.</strong></p>\r\n<p>Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper.\r\nPhasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada\r\nfames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac,\r\ntempus nec, tempor nec, justo. </p>\r\n<p>Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam.\r\nPellentesque consequat luctus purus. Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi.\r\nVestibulum sapien dolor, aliquet nec, porta ac, malesuada a, libero. Praesent feugiat purus eget est.\r\nNulla facilisi. Vestibulum tincidunt sapien eu velit. Mauris purus. Maecenas eget mauris eu orci accumsan feugiat.\r\nPellentesque eget velit. Nunc tincidunt.</p></div>\r\n<div class="col-3">\r\n<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.\r\nMauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.\r\nCras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in,\r\nfaucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper </p>\r\n<p><strong style="color:#de036f;">Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci,\r\nsit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus.</strong></p>\r\n<p>Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi.</p>\r\n<div class="divider"></div>\r\n<p>To all of you, from all of us at Magento Store - Thank you and Happy eCommerce!</p>\r\n<p style="line-height:1.2em;"><strong style="font:italic 2em Georgia, serif;">John Doe</strong><br />\r\n<small>Some important guy</small></p></div>\r\n</div>', '2015-01-03 14:08:09', '2015-01-03 14:08:09', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL),
 (4, 'Customer Service', 'three_columns', NULL, NULL, 'customer-service', NULL, '<div class="page-title">\r\n<h1>Customer Service</h1>\r\n</div>\r\n<ul class="disc">\r\n<li><a href="#answer1">Shipping &amp; Delivery</a></li>\r\n<li><a href="#answer2">Privacy &amp; Security</a></li>\r\n<li><a href="#answer3">Returns &amp; Replacements</a></li>\r\n<li><a href="#answer4">Ordering</a></li>\r\n<li><a href="#answer5">Payment, Pricing &amp; Promotions</a></li>\r\n<li><a href="#answer6">Viewing Orders</a></li>\r\n<li><a href="#answer7">Updating Account Information</a></li>\r\n</ul>\r\n<dl>\r\n<dt id="answer1">Shipping &amp; Delivery</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.\r\nMauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.\r\nCras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in,\r\nfaucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa.\r\nPellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\nNunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec,\r\njusto.</dd>\r\n<dt id="answer2">Privacy &amp; Security</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.\r\nMauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.\r\nCras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in,\r\nfaucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa.\r\nPellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\nNunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec,\r\njusto.</dd>\r\n<dt id="answer3">Returns &amp; Replacements</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.\r\nMauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.\r\nCras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in,\r\nfaucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa.\r\nPellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\nNunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec,\r\njusto.</dd>\r\n<dt id="answer4">Ordering</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.\r\nMauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.\r\nCras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in,\r\nfaucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa.\r\nPellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\nNunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec,\r\njusto.</dd>\r\n<dt id="answer5">Payment, Pricing &amp; Promotions</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.\r\nMauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.\r\nCras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in,\r\nfaucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa.\r\nPellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\nNunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec,\r\njusto.</dd>\r\n<dt id="answer6">Viewing Orders</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.\r\nMauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.\r\nCras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in,\r\nfaucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa.\r\n Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec,\r\n justo.</dd>\r\n<dt id="answer7">Updating Account Information</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.\r\n Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.\r\n Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in,\r\n faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa.\r\n Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec,\r\n justo.</dd>\r\n</dl>', '2015-01-03 14:08:09', '2015-01-03 14:08:09', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL),
 (5, 'Enable Cookies', 'one_column', NULL, NULL, 'enable-cookies', NULL, '<div class="std">\r\n    <ul class="messages">\r\n        <li class="notice-msg">\r\n            <ul>\r\n                <li>Please enable cookies in your web browser to continue.</li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n    <div class="page-title">\r\n        <h1><a name="top"></a>What are Cookies?</h1>\r\n    </div>\r\n    <p>Cookies are short pieces of data that are sent to your computer when you visit a website.\r\n    On later visits, this data is then returned to that website. Cookies allow us to recognize you automatically\r\n    whenever you visit our site so that we can personalize your experience and provide you with better service.\r\n    We also use cookies (and similar browser data, such as Flash cookies) for fraud prevention and other purposes.\r\n     If your web browser is set to refuse cookies from our website, you will not be able to complete a purchase\r\n     or take advantage of certain features of our website, such as storing items in your Shopping Cart or\r\n     receiving personalized recommendations. As a result, we strongly encourage you to configure your web\r\n     browser to accept cookies from our website.</p>\r\n    <h2 class="subtitle">Enabling Cookies</h2>\r\n    <ul class="disc">\r\n        <li><a href="#ie7">Internet Explorer 7.x</a></li>\r\n        <li><a href="#ie6">Internet Explorer 6.x</a></li>\r\n        <li><a href="#firefox">Mozilla/Firefox</a></li>\r\n        <li><a href="#opera">Opera 7.x</a></li>\r\n    </ul>\r\n    <h3><a name="ie7"></a>Internet Explorer 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Start Internet Explorer</p>\r\n        </li>\r\n        <li>\r\n            <p>Under the <strong>Tools</strong> menu, click <strong>Internet Options</strong></p>\r\n            <p><img src="{{skin url="images/cookies/ie7-1.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Privacy</strong> tab</p>\r\n            <p><img src="{{skin url="images/cookies/ie7-2.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Advanced</strong> button</p>\r\n            <p><img src="{{skin url="images/cookies/ie7-3.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Put a check mark in the box for <strong>Override Automatic Cookie Handling</strong>,\r\n            put another check mark in the <strong>Always accept session cookies </strong>box</p>\r\n            <p><img src="{{skin url="images/cookies/ie7-4.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src="{{skin url="images/cookies/ie7-5.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src="{{skin url="images/cookies/ie7-6.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Restart Internet Explore</p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="ie6"></a>Internet Explorer 6.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Select <strong>Internet Options</strong> from the Tools menu</p>\r\n            <p><img src="{{skin url="images/cookies/ie6-1.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> tab</p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Default</strong> button (or manually slide the bar down to <strong>Medium</strong>)\r\n            under <strong>Settings</strong>. Click <strong>OK</strong></p>\r\n            <p><img src="{{skin url="images/cookies/ie6-2.gif"}}" alt="" /></p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="firefox"></a>Mozilla/Firefox</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong>-menu in Mozilla</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Options...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection in the left part of the window. (See image below)</p>\r\n            <p><img src="{{skin url="images/cookies/firefox.png"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Expand the <strong>Cookies</strong> section</p>\r\n        </li>\r\n        <li>\r\n            <p>Check the <strong>Enable cookies</strong> and <strong>Accept cookies normally</strong> checkboxes</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong>.</p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="opera"></a>Opera 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong> menu in Opera</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Preferences...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection near the bottom left of the window. (See image below)</p>\r\n            <p><img src="{{skin url="images/cookies/opera.png"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>The <strong>Enable cookies</strong> checkbox must be checked, and <strong>Accept all cookies</strong>\r\n            should be selected in the &quot;<strong>Normal cookies</strong>&quot; drop-down</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong></p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n</div>\r\n', '2015-01-03 14:08:09', '2015-01-03 14:08:09', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -8747,11 +8910,11 @@ CREATE TABLE IF NOT EXISTS `cms_page_store` (
 
 INSERT INTO `cms_page_store` (`page_id`, `store_id`) VALUES
 (1, 0),
-(2, 0),
 (3, 0),
 (4, 0),
 (5, 0),
-(6, 0);
+(6, 0),
+(2, 1);
 
 -- --------------------------------------------------------
 
@@ -8822,7 +8985,7 @@ CREATE TABLE IF NOT EXISTS `core_config_data` (
   `value` text COMMENT 'Config Value',
   PRIMARY KEY (`config_id`),
   UNIQUE KEY `UNQ_CORE_CONFIG_DATA_SCOPE_SCOPE_ID_PATH` (`scope`,`scope_id`,`path`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Config Data' AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Config Data' AUTO_INCREMENT=105 ;
 
 --
 -- Dumping data for table `core_config_data`
@@ -8844,7 +9007,94 @@ INSERT INTO `core_config_data` (`config_id`, `scope`, `scope_id`, `path`, `value
 (14, 'default', 0, 'general/locale/timezone', 'America/Los_Angeles'),
 (15, 'default', 0, 'currency/options/base', 'USD'),
 (16, 'default', 0, 'currency/options/default', 'USD'),
-(17, 'default', 0, 'currency/options/allow', 'USD');
+(17, 'default', 0, 'currency/options/allow', 'USD'),
+(18, 'default', 0, 'design/package/name', 'default'),
+(19, 'default', 0, 'design/package/ua_regexp', 'a:0:{}'),
+(20, 'default', 0, 'design/theme/locale', NULL),
+(21, 'default', 0, 'design/theme/template', 'simplegreat'),
+(22, 'default', 0, 'design/theme/template_ua_regexp', 'a:0:{}'),
+(23, 'default', 0, 'design/theme/skin', 'simplegreat'),
+(24, 'default', 0, 'design/theme/skin_ua_regexp', 'a:0:{}'),
+(25, 'default', 0, 'design/theme/layout', 'simplegreat'),
+(26, 'default', 0, 'design/theme/layout_ua_regexp', 'a:0:{}'),
+(27, 'default', 0, 'design/theme/default', 'simplegreat'),
+(28, 'default', 0, 'design/theme/default_ua_regexp', 'a:0:{}'),
+(29, 'default', 0, 'design/head/default_title', 'Magento Commerce'),
+(30, 'default', 0, 'design/head/title_prefix', NULL),
+(31, 'default', 0, 'design/head/title_suffix', NULL),
+(32, 'default', 0, 'design/head/default_description', 'Default Description'),
+(33, 'default', 0, 'design/head/default_keywords', 'Magento, Varien, E-commerce'),
+(34, 'default', 0, 'design/head/default_robots', 'INDEX,FOLLOW'),
+(35, 'default', 0, 'design/head/includes', NULL),
+(36, 'default', 0, 'design/head/demonotice', '0'),
+(37, 'default', 0, 'design/header/logo_src', 'images/logo.jpg'),
+(38, 'default', 0, 'design/header/logo_alt', 'Magento Commerce'),
+(39, 'default', 0, 'design/header/logo_src_small', 'images/logo.gif'),
+(40, 'default', 0, 'design/header/welcome', 'Default welcome msg!'),
+(41, 'default', 0, 'design/footer/copyright', '&copy; 2014 Magento Demo Store. All Rights Reserved.'),
+(42, 'default', 0, 'design/footer/absolute_footer', NULL),
+(43, 'default', 0, 'design/watermark/image_size', NULL),
+(44, 'default', 0, 'design/watermark/image_imageOpacity', NULL),
+(45, 'default', 0, 'design/watermark/image_position', 'stretch'),
+(46, 'default', 0, 'design/watermark/small_image_size', NULL),
+(47, 'default', 0, 'design/watermark/small_image_imageOpacity', NULL),
+(48, 'default', 0, 'design/watermark/small_image_position', 'stretch'),
+(49, 'default', 0, 'design/watermark/thumbnail_size', NULL),
+(50, 'default', 0, 'design/watermark/thumbnail_imageOpacity', NULL),
+(51, 'default', 0, 'design/watermark/thumbnail_position', 'stretch'),
+(52, 'default', 0, 'design/pagination/pagination_frame', '5'),
+(53, 'default', 0, 'design/pagination/pagination_frame_skip', NULL),
+(54, 'default', 0, 'design/pagination/anchor_text_for_previous', NULL),
+(55, 'default', 0, 'design/pagination/anchor_text_for_next', NULL),
+(56, 'default', 0, 'design/email/logo_alt', NULL),
+(57, 'default', 0, 'design/email/logo_width', NULL),
+(58, 'default', 0, 'design/email/logo_height', NULL),
+(59, 'default', 0, 'design/email/header', 'design_email_header'),
+(60, 'default', 0, 'design/email/footer', 'design_email_footer'),
+(61, 'default', 0, 'design/email/css_non_inline', 'email-non-inline.css'),
+(62, 'default', 0, 'mygeneral/generaloptions/responsive', '1'),
+(63, 'default', 0, 'mygeneral/generaloptions/menutype', '1'),
+(64, 'default', 0, 'mygeneral/generaloptions/floattopmenu', '1'),
+(65, 'default', 0, 'mygeneral/generaloptions/additional_nav', 'Blog'),
+(66, 'default', 0, 'mygeneral/generaloptions/additional_nav_href', './blog/'),
+(67, 'default', 0, 'mygeneral/generaloptions/additional_nav2', 'Contacts'),
+(68, 'default', 0, 'mygeneral/generaloptions/additional_nav_href2', './contacts/'),
+(69, 'default', 0, 'mygeneral/generaloptions/googlefont', 'Open Sans:300,300italic,regular,italic,600,600italic,700,700italic,800,800italic'),
+(70, 'default', 0, 'mygeneral/generaloptions/topbtn', '1'),
+(71, 'default', 0, 'mygeneral/generaloptions/enable_ajax', '0'),
+(72, 'default', 0, 'mygeneral/generaloptions/hide_cart', '0'),
+(73, 'default', 0, 'mygeneral/generaloptions/hide_compare', '0'),
+(74, 'default', 0, 'mygeneral/generaloptions/hide_wish', '0'),
+(75, 'default', 0, 'mygeneral/generaloptions/use_animation', '1'),
+(76, 'default', 0, 'mygeneral/background/maincolor', 'F6F7F8'),
+(77, 'default', 0, 'mygeneral/background/pattern', NULL),
+(78, 'default', 0, 'mygeneral/background/bg_repeat', NULL),
+(79, 'default', 0, 'mygeneral/background/bg_attachment', NULL),
+(80, 'default', 0, 'mygeneral/background/bg_position_x', NULL),
+(81, 'default', 0, 'mygeneral/background/bg_position_y', NULL),
+(82, 'default', 0, 'mygeneral/colors/skin', '8'),
+(83, 'default', 0, 'mygeneral/slideshow/fullwidthslider', '1'),
+(84, 'default', 0, 'mygeneral/slideshow/autoplay', '-1'),
+(85, 'default', 0, 'mygeneral/slideshow/delay', '9000'),
+(86, 'default', 0, 'mygeneral/carousels/new_carousel', '1'),
+(87, 'default', 0, 'mygeneral/carousels/new_carousel_limit', '4'),
+(88, 'default', 0, 'mygeneral/carousels/sale_carousel', '1'),
+(89, 'default', 0, 'mygeneral/carousels/sale_carousel_limit', '4'),
+(90, 'default', 0, 'mygeneral/product_list/productboxsize', '1'),
+(91, 'default', 0, 'mygeneral/product_list/layer', '1'),
+(92, 'default', 0, 'mygeneral/product_list/new_label', '1'),
+(93, 'default', 0, 'mygeneral/product_list/new_label_text', 'New'),
+(94, 'default', 0, 'mygeneral/product_list/sale_label', '1'),
+(95, 'default', 0, 'mygeneral/product_list/sale_label_text', 'Sale'),
+(96, 'default', 0, 'mygeneral/productpage/use_zoom', '1'),
+(97, 'default', 0, 'mygeneral/productpage/zoom_width', '412'),
+(98, 'default', 0, 'mygeneral/productpage/use_carousel', '1'),
+(99, 'default', 0, 'mygeneral/productpage/hide_rightblock', '0'),
+(100, 'default', 0, 'mygeneral/share/facebookgroupid', NULL),
+(101, 'default', 0, 'mygeneral/share/twittername', NULL),
+(102, 'default', 0, 'mygeneral/share/use_share', '1'),
+(103, 'default', 0, 'mygeneral/customcode/customcss', '/* Add any CSS code here */'),
+(104, 'default', 0, 'mygeneral/customcode/customjs', '// Add any JavaScript code here');
 
 -- --------------------------------------------------------
 
@@ -8986,9 +9236,11 @@ CREATE TABLE IF NOT EXISTS `core_resource` (
 INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 ('adminnotification_setup', '1.6.0.0', '1.6.0.0'),
 ('admin_setup', '1.6.1.1', '1.6.1.1'),
+('ajax_setup', '0.1.0', '0.1.0'),
 ('api2_setup', '1.0.0.0', '1.0.0.0'),
 ('api_setup', '1.6.0.1', '1.6.0.1'),
 ('backup_setup', '1.6.0.0', '1.6.0.0'),
+('blog_setup', '1.3.5', '1.3.5'),
 ('bundle_setup', '1.6.0.0.1', '1.6.0.0.1'),
 ('captcha_setup', '1.7.0.0.0', '1.7.0.0.0'),
 ('catalogindex_setup', '1.6.0.0', '1.6.0.0'),
@@ -13892,7 +14144,7 @@ CREATE TABLE IF NOT EXISTS `index_event` (
   `new_data` mediumtext COMMENT 'New Data',
   PRIMARY KEY (`event_id`),
   UNIQUE KEY `UNQ_INDEX_EVENT_TYPE_ENTITY_ENTITY_PK` (`type`,`entity`,`entity_pk`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Index Event' AUTO_INCREMENT=152 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Index Event' AUTO_INCREMENT=155 ;
 
 --
 -- Dumping data for table `index_event`
@@ -14049,7 +14301,10 @@ INSERT INTO `index_event` (`event_id`, `type`, `entity`, `entity_pk`, `created_a
 (148, 'save', 'catalog_product', 125, '2015-01-03 23:10:06', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:1;s:34:"catalog_product_price_match_result";b:1;s:24:"catalog_url_match_result";b:1;s:37:"catalog_category_product_match_result";b:1;s:35:"catalogsearch_fulltext_match_result";b:1;}'),
 (149, 'save', 'cataloginventory_stock_item', 274, '2015-01-03 23:10:20', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:1;s:34:"catalog_product_price_match_result";b:0;s:24:"catalog_url_match_result";b:0;s:37:"catalog_category_product_match_result";b:0;s:35:"catalogsearch_fulltext_match_result";b:0;}'),
 (150, 'catalog_reindex_price', 'catalog_product', 126, '2015-01-03 23:10:20', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:0;s:34:"catalog_product_price_match_result";b:1;s:24:"catalog_url_match_result";b:0;s:37:"catalog_category_product_match_result";b:0;s:35:"catalogsearch_fulltext_match_result";b:0;}'),
-(151, 'save', 'catalog_product', 126, '2015-01-03 23:10:20', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:1;s:34:"catalog_product_price_match_result";b:1;s:24:"catalog_url_match_result";b:1;s:37:"catalog_category_product_match_result";b:1;s:35:"catalogsearch_fulltext_match_result";b:1;}');
+(151, 'save', 'catalog_product', 126, '2015-01-03 23:10:20', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:1;s:34:"catalog_product_price_match_result";b:1;s:24:"catalog_url_match_result";b:1;s:37:"catalog_category_product_match_result";b:1;s:35:"catalogsearch_fulltext_match_result";b:1;}'),
+(152, 'save', 'cataloginventory_stock_item', 250, '2015-01-14 23:05:59', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:1;s:34:"catalog_product_price_match_result";b:0;s:24:"catalog_url_match_result";b:0;s:37:"catalog_category_product_match_result";b:0;s:35:"catalogsearch_fulltext_match_result";b:0;}'),
+(153, 'catalog_reindex_price', 'catalog_product', 111, '2015-01-14 23:06:00', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:0;s:34:"catalog_product_price_match_result";b:1;s:24:"catalog_url_match_result";b:0;s:37:"catalog_category_product_match_result";b:0;s:35:"catalogsearch_fulltext_match_result";b:0;}'),
+(154, 'save', 'catalog_product', 111, '2015-01-14 23:06:00', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:1;s:34:"catalog_product_price_match_result";b:1;s:24:"catalog_url_match_result";b:1;s:37:"catalog_category_product_match_result";b:1;s:35:"catalogsearch_fulltext_match_result";b:1;}');
 
 -- --------------------------------------------------------
 
@@ -14073,15 +14328,15 @@ CREATE TABLE IF NOT EXISTS `index_process` (
 --
 
 INSERT INTO `index_process` (`process_id`, `indexer_code`, `status`, `started_at`, `ended_at`, `mode`) VALUES
-(1, 'catalog_product_attribute', 'pending', '2015-01-03 23:10:20', '2015-01-03 23:10:20', 'real_time'),
-(2, 'catalog_product_price', 'pending', '2015-01-03 23:10:20', '2015-01-03 23:10:20', 'real_time'),
-(3, 'catalog_url', 'pending', '2015-01-04 07:14:16', '2015-01-04 07:14:16', 'real_time'),
+(1, 'catalog_product_attribute', 'pending', '2015-01-14 23:07:41', '2015-01-14 23:07:41', 'real_time'),
+(2, 'catalog_product_price', 'pending', '2015-01-14 23:07:41', '2015-01-14 23:07:41', 'real_time'),
+(3, 'catalog_url', 'pending', '2015-01-14 23:07:41', '2015-01-14 23:07:41', 'real_time'),
 (4, 'catalog_product_flat', 'require_reindex', '2015-01-03 14:56:27', '2015-01-03 14:56:27', 'real_time'),
 (5, 'catalog_category_flat', 'pending', '2015-01-03 14:56:27', '2015-01-03 14:56:28', 'real_time'),
-(6, 'catalog_category_product', 'pending', '2015-01-04 07:14:16', '2015-01-04 07:14:16', 'real_time'),
-(7, 'catalogsearch_fulltext', 'pending', '2015-01-04 07:14:16', '2015-01-04 07:14:16', 'real_time'),
-(8, 'cataloginventory_stock', 'pending', '2015-01-03 23:10:20', '2015-01-03 23:10:20', 'real_time'),
-(9, 'tag_summary', 'pending', '2015-01-03 23:10:20', '2015-01-03 23:10:20', 'real_time');
+(6, 'catalog_category_product', 'pending', '2015-01-14 23:07:41', '2015-01-14 23:07:41', 'real_time'),
+(7, 'catalogsearch_fulltext', 'pending', '2015-01-14 23:07:41', '2015-01-14 23:07:42', 'real_time'),
+(8, 'cataloginventory_stock', 'pending', '2015-01-14 23:07:41', '2015-01-14 23:07:41', 'real_time'),
+(9, 'tag_summary', 'pending', '2015-01-14 23:07:42', '2015-01-14 23:07:42', 'real_time');
 
 -- --------------------------------------------------------
 
@@ -14292,7 +14547,27 @@ INSERT INTO `log_url` (`url_id`, `visitor_id`, `visit_time`) VALUES
 (105, 6, '2015-01-04 17:23:51'),
 (106, 6, '2015-01-04 17:35:50'),
 (107, 6, '2015-01-04 17:36:45'),
-(108, 7, '2015-01-04 19:31:19');
+(108, 7, '2015-01-04 19:31:19'),
+(109, 15, '2015-01-14 22:43:03'),
+(110, 15, '2015-01-14 22:45:00'),
+(111, 15, '2015-01-14 22:45:46'),
+(112, 15, '2015-01-14 22:46:20'),
+(113, 15, '2015-01-14 22:47:40'),
+(114, 15, '2015-01-14 22:50:49'),
+(115, 15, '2015-01-14 22:53:14'),
+(116, 15, '2015-01-14 22:56:47'),
+(117, 15, '2015-01-14 23:02:04'),
+(118, 15, '2015-01-14 23:04:20'),
+(119, 15, '2015-01-14 23:06:41'),
+(120, 15, '2015-01-14 23:07:47'),
+(121, 15, '2015-01-14 23:11:07'),
+(122, 15, '2015-01-14 23:13:48'),
+(123, 15, '2015-01-14 23:15:49'),
+(124, 15, '2015-01-14 23:18:39'),
+(125, 15, '2015-01-14 23:21:55'),
+(126, 15, '2015-01-14 23:22:17'),
+(127, 15, '2015-01-14 23:22:48'),
+(128, 15, '2015-01-14 23:23:45');
 
 -- --------------------------------------------------------
 
@@ -14305,7 +14580,7 @@ CREATE TABLE IF NOT EXISTS `log_url_info` (
   `url` varchar(255) DEFAULT NULL COMMENT 'URL',
   `referer` varchar(255) DEFAULT NULL COMMENT 'Referrer',
   PRIMARY KEY (`url_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Log URL Info Table' AUTO_INCREMENT=109 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Log URL Info Table' AUTO_INCREMENT=129 ;
 
 --
 -- Dumping data for table `log_url_info`
@@ -14419,7 +14694,27 @@ INSERT INTO `log_url_info` (`url_id`, `url`, `referer`) VALUES
 (105, 'http://localhost/site/catalog/category/view/id/7', 'http://localhost/site/'),
 (106, 'http://localhost/site/catalog/product/view/id/6', 'http://localhost/site/furniture/seating.html'),
 (107, 'http://localhost/site/catalog/product/view/id/6', 'http://localhost/site/furniture/seating.html'),
-(108, 'http://localhost/site/', NULL);
+(108, 'http://localhost/site/', NULL),
+(109, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(110, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(111, 'http://localhost/site/skin/frontend/base/default/images/logo.png', 'http://localhost/site/'),
+(112, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(113, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(114, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(115, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(116, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(117, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(118, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(119, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(120, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(121, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(122, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(123, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(124, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(125, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(126, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(127, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html'),
+(128, 'http://localhost/site/', 'http://localhost/site/furniture/seating.html');
 
 -- --------------------------------------------------------
 
